@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PreToken Radar — protocols with no token yet, ranked by implied value</title>
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+<header class="top">
+  <div class="brand"><span class="rings"></span><h1>PRETOKEN RADAR</h1></div>
+  <p class="tag">Protocols that record no token yet, ranked by what a token would be worth if their record stayed as it is — and how to farm each one before it issues.</p>
+  <p class="meta" id="meta">Loading the board…</p>
+</header>
+
+<section class="panel" id="model-panel">
+  <h2>How every row is priced</h2>
+  <p class="prose">The snapshot's trading protocols give the market's own answer to what a dollar of TVL is worth as token value: their market-cap / TVL ratio. The model takes the <strong>median ratio inside each category</strong> (a category with fewer than 4 trading members uses the whole-snapshot median instead), and prices a pre-token protocol at <strong>TVL × its category multiple</strong>. Three bounded adjustments follow, each from the row's own figures: a momentum factor from the 7-day TVL change (clamped to −30%…+60%, divided by 200, so one wild week cannot dominate), a track-record factor that grows logarithmically with the days run with no token (up to +30% at five years), and a reach factor of +2% per extra chain (capped at +20%). No protocol's name is an input. Open any row to see its full breakdown and the trading comparables behind its multiple.</p>
+  <div id="multiples"></div>
+</section>
+
+<section class="panel" id="board-panel">
+  <div class="controls">
+    <label class="ctl grow">Search<input id="q" type="search" placeholder="Protocol name or slug…"></label>
+    <label class="ctl">Category<select id="f-cat"><option value="">All categories</option></select></label>
+    <label class="ctl">Chain<select id="f-chain"><option value="">All chains</option></select></label>
+    <label class="ctl">Min TVL<select id="f-tvl">
+      <option value="0">Any TVL</option><option value="50000000">$50M+</option><option value="100000000">$100M+</option>
+      <option value="250000000">$250M+</option><option value="1000000000">$1B+</option>
+    </select></label>
+    <label class="ctl check"><input id="f-watch" type="checkbox"> Watchlist only</label>
+    <span class="count" id="count"></span>
+  </div>
+  <div class="tablewrap">
+  <table id="board">
+    <thead><tr>
+      <th data-sort="rank" class="num sortable">#</th>
+      <th data-sort="name" class="sortable">Protocol</th>
+      <th data-sort="category" class="sortable">Category</th>
+      <th>Chains</th>
+      <th data-sort="tvl" class="num sortable">TVL</th>
+      <th data-sort="change" class="num sortable">7d %</th>
+      <th data-sort="multiple" class="num sortable">Mkt ×</th>
+      <th data-sort="implied" class="num sortable">Implied value</th>
+    </tr></thead>
+    <tbody id="rows"></tbody>
+  </table>
+  </div>
+  <p class="hint">Click a row for its model breakdown, its trading comparables and its farm plan. <span class="wl-badge">WL</span> marks the snapshot's watchlist: every one of its protocols is on this board.</p>
+</section>
+
+<aside id="detail" hidden></aside>
+
+<section class="panel" id="live-panel">
+  <h2>Already trading — the reference set</h2>
+  <p class="prose">These protocols already have a token, so the board never ranks them: it learns from them. Their market-cap / TVL ratios are the comparables each category's multiple is the median of.</p>
+  <div id="live"></div>
+</section>
+
+<footer>
+  <p>Implied value is this board's own model claim, derived only from the sealed snapshot's figures; it is not a prediction that a token will be issued. Farm plans are starting points, not financial advice.</p>
+</footer>
+
+<script src="../data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
